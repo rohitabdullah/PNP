@@ -1,7 +1,6 @@
 import requests
 import json
 
-# Define the function to check if a Facebook UID is public.
 def is_public_uid(uid):
   """Checks if a Facebook UID is public.
 
@@ -32,6 +31,9 @@ def is_public_uid(uid):
 # Get the path to the text file.
 text_file_path = input("Enter the path to the text file: ")
 
+# Get the name of the output file.
+output_file_name = input("Enter the name of the output file: ")
+
 # Create a list to store the public UIDs.
 public_uids = []
 
@@ -47,10 +49,10 @@ with open(text_file_path, "r") as text_file:
     if is_public:
       public_uids.append(uid)
 
-# Write the public UIDs to a new file.
-with open("public_uids.txt", "w") as public_uids_file:
+# Write the public UIDs to the output file.
+with open(output_file_name, "w") as output_file:
   for uid in public_uids:
-    public_uids_file.write(uid + "\n")
+    output_file.write(uid + "\n")
 
 # Print a message to the user.
-print("The public UIDs have been saved to the file 'public_uids.txt'.")
+print(f"The public UIDs have been saved to the file '{output_file_name}'.")
