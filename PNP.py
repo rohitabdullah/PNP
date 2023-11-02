@@ -3,15 +3,22 @@ import json
 import tqdm
 
 def is_public_uid(uid):
-  response = requests.get("https://graph.facebook.com/v13.0/{}/fields=is_public".format(uid))
+  response = requests.get(
+      "https://graph.facebook.com/v13.0/{}/fields=is_public".format(uid))
   json_response = response.json()
   is_public = json_response["is_public"]
   return is_public
 
+# Read the banner text from the file.
+with open("banner.txt", "r") as banner_file:
+  banner_text = banner_file.read()
+
+# Print the banner text.
+print(banner_text)
+
 text_file_path = input("Enter the path to the text file: ")
 public_uids_file_path = input("Enter the path where to save the public UIDs: ")
-banner_text = open("banner.txt").read()
-print(banner_text)
+
 public_uids = []
 progress_bar = tqdm.tqdm(total=len(open(text_file_path).readlines()))
 with open(text_file_path) as text_file:
