@@ -1,6 +1,7 @@
 import requests
 import json
 import tqdm
+import os
 
 def is_public_uid(uid):
   response = requests.get(
@@ -9,27 +10,46 @@ def is_public_uid(uid):
   is_public = json_response["is_public"]
   return is_public
 
-# Read the banner text from the file.
+
+import os
+os.system('cls' if os.name == 'nt' else 'clear')
+
+
 with open("banner.txt", "r") as banner_file:
   banner_text = banner_file.read()
 
-# Print the banner text.
+
 print(banner_text)
 
-text_file_path = input("Enter the path to the text file: ")
-public_uids_file_path = input("Enter the path where to save the public UIDs: ")
+
+text_file_path = input("Where is the text file (path): ")
+
+
+public_uids_file_path = input("Where to save the public UIDs (path): ")
+
 
 public_uids = []
-progress_bar = tqdm.tqdm(total=len(open(text_file_path).readlines()))
+
+
 with open(text_file_path) as text_file:
   for line in text_file:
     uid = line.strip()
     is_public = is_public_uid(uid)
+
+
     if is_public:
+      print(f"{uid} is public.")
       public_uids.append(uid)
-    progress_bar.update(1)
-progress_bar.close()
+    else:
+      print(f"{uid} is not public.")
+
+
 with open(public_uids_file_path, "w") as public_uids_file:
   for uid in public_uids:
     public_uids_file.write(uid + "\n")
-print("The public UIDs have been saved to the file '{}'.".format(public_uids_file_path))
+
+
+if len(public_uids) == 0:
+  print("Sorry man!! None of the UIDs were public.. Try another file")
+else:
+  print("The public UIDs have been saved to the file '{}'.".format(public_uids_file_path))
