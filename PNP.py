@@ -3,17 +3,15 @@ import json
 import tqdm
 import os
 
-logo=(" 
+logo=("""
 ooooooo__ooo____oo_ooooooo__
 oo____oo_oooo___oo_oo____oo_
 oo____oo_oo_oo__oo_oo____oo_
 oooooo___oo__oo_oo_oooooo___
 oo_______oo___oooo_oo_______
 oo_______oo____ooo_oo_______
-____________________________
-")
-def clear():
-  os.system('clear')
+____________________________""")
+
 print(logo)
 print(42*'-')
 print("▌│█║▌║▌║ 𝚁.𝙰 𝙶𝚛𝚘𝚞𝚙. ║▌║▌║█│▌")
