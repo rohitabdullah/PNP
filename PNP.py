@@ -7,13 +7,16 @@ import shutil
 import webbrowser
 import textwrap
 
-def is_public_uid(uid, access_token):
+def is_access_token_active():
     response = requests.get(
-        f"https://graph.facebook.com/v13.0/{uid}?fields=is_public",
-        headers={"Authorization": f"Bearer {access_token}"},
+        "https://graph.facebook.com/v13.0/me"
     )
     json_response = response.json()
-    return json_response["is_public"] if "is_public" in json_response else False
+
+    if "error" in json_response:
+        return False
+    else:
+        return True
 
 # Get the banner text from the bs.txt file in the repository.
 banner_text = requests.get("https://raw.githubusercontent.com/rohitabdullah/pnp/main/bs.txt").text
@@ -36,11 +39,8 @@ has_access_token = input("Do you have an access token? (Y/N): ")
 
 if has_access_token.lower() == "y":
 
-    # Prompt the user for their access token.
-    access_token = input("Enter your access token: ")
-
     # Check if the access token is active.
-    if not is_access_token_active(access_token):
+    if not is_access_token_active():
         print("Your access token is not active. Please generate a new access token at https://developers.facebook.com/tools/explorer/.")
         exit()
 
@@ -63,7 +63,7 @@ public_uids = []
 with open(text_file_path, "r") as text_file:
     for line in tqdm.tqdm(text_file):
         uid = line.strip()
-        is_public = is_public_uid(uid, access_token)
+        is_public = is_public_uid()
 
         if is_public:
             public_uids.append(uid)
@@ -80,7 +80,8 @@ print("The public UIDs have been saved to the file '{}'.".format(public_uids_fil
 follow_on_github = input("Do you want to follow me on GitHub? (Y/N): ")
 
 if follow_on_github.lower() == "y":
-    webbrowser.open("https://github.com/rohitabdullah")
+    os.system("open https://github.com/rohitabdullah")
     print("Thanks for following me on GitHub!")
 else:
     print("Thank you for using this tool!")
+
