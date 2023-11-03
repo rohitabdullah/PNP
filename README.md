@@ -7,15 +7,15 @@ pnp.py: Identify Public and Non-Public Facebook UIDs  pnp.py is a Python tool th
 
 Installation - (Linux)
 
-apt update -y
-apt upgrade -y
-apt install python 
-apt install python3
-apt install python-pip
-pip install requests -y
-pip install tqdm
-apt install git
-git clone https://github.com/rohitabdullah/PNP
-cd PNP
-python3 PNP.py
+apt update -y;
+apt upgrade -y;
+apt install python;
+apt install python3;
+apt install python-pip;
+pip install requests -y;
+pip install tqdm;
+apt install git;
+git clone https://github.com/rohitabdullah/PNP;
+cd PNP;
+python3 PNP.py;
 
