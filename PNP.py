@@ -19,7 +19,7 @@ import os
 os.system('cls' if os.name == 'nt' else 'clear')
 
 # Read the banner.
-banner_file_path = "bsrc.txt"
+banner_file_path = "bs.txt"
 with open(banner_file_path, "r") as banner_file:
   banner_text = banner_file.read()
 
