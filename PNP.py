@@ -1,4 +1,4 @@
-import webbrowser
+import PIL.Image
 import requests
 import json
 import tqdm
@@ -6,35 +6,27 @@ import os
 import shutil
 
 def is_public_uid(uid):
-  response = requests.get(
-      "https://graph.facebook.com/v13.0/{}/fields=is_public".format(uid))
-  json_response = response.json()
-  is_public = json_response["is_public"]
-  return is_public
+    response = requests.get(
+        f"https://graph.facebook.com/v13.0/{uid}?fields=is_public")
+    json_response = response.json()
+    return json_response["is_public"] if "is_public" in json_response else False
 
-# Open the user's GitHub profile in a web browser.
-webbrowser.open("https://github.com/<your_username>")
+def get_image_from_url(image_url):
+    response = requests.get(image_url)
+    return PIL.Image.open(response.content)
 
-# Wait for the user to press Enter before continuing.
-input("Press Enter to continue...")
+# Display the banner image.
+banner_image = get_image_from_url("bs.png")
+banner_image.show()
 
-# Clear the console.
-import os
-os.system('cls' if os.name == 'nt' else 'clear')
+# Prompt the user to enter their access token.
+access_token = input("Enter your Facebook access token: ")
 
-# Read the banner text from the file.
-banner_file_path = "bs.txt"
-with open(banner_file_path, "r") as banner_file:
-  banner_text = banner_file.read()
-
-# Get the terminal width.
-terminal_width = shutil.get_terminal_size().columns
-
-# Center the banner text.
-banner_text = banner_text.center(terminal_width)
-
-# Print the banner text.
-print(banner_text)
+# Check if the access token is active.
+if not is_access_token_active(access_token):
+    print("Your access token is not active. Please check your access token at https://developers.facebook.com/tools/explorer/.")
+    print("To generate a new access token, please visit https://developers.facebook.com/apps/.")
+    exit()
 
 # Get the path to the text file.
 text_file_path = input("Enter the path to the text file: ")
@@ -47,24 +39,31 @@ public_uids = []
 
 # Iterate over the lines in the text file and check if each UID is public.
 with open(text_file_path) as text_file:
-  for line in text_file:
-    uid = line.strip()
-    is_public = is_public_uid(uid)
+    for line in text_file:
+        uid = line.strip()
+        is_public = is_public_uid(uid, access_token)
 
-    # Print the UID and indicate whether it is public or not public.
-    if is_public:
-      print(f"{uid} is public.")
-      public_uids.append(uid)
-    else:
-      print(f"{uid} is not public.")
+        if is_public:
+            public_uids.append(uid)
+        else:
+            print(f"{uid} is not public.")
 
 # Save the public UIDs to a file.
 with open(public_uids_file_path, "w") as public_uids_file:
-  for uid in public_uids:
-    public_uids_file.write(uid + "\n")
+    for uid in public_uids:
+        public_uids_file.write(uid + "\n")
 
 # If there are no public UIDs, print a message to the user.
-if len(public_uids) == 0:
-  print("Sorry man!! None of the uids was public.. try another file")
+if not public_uids:
+    print("Sorry man!! None of the uids was public.. try another file")
 else:
-  print("The public UIDs have been saved to the file '{}'.".format(public_uids_file_path))
+    print(f"The public UIDs have been saved to the file '{public_uids_file_path}'.")
+
+# Ask the user if they want to follow me on GitHub.
+follow_on_github = input("Do you want to follow me on GitHub? (Y/N): ")
+
+if follow_on_github.lower() == "y":
+    webbrowser.open("https://github.com/rohitabdullah")
+    print("Thanks for following me on GitHub!")
+else:
+    print("No worries. Thanks for using my tool!")
