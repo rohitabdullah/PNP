@@ -3,16 +3,15 @@ import json
 import tqdm
 import os
 
-#logo 
-logo=(""
-`7MM"""Mq.`7MN.   `7MF'`7MM"""Mq. 
-  MM   `MM. MMN.    M    MM   `MM.
-  MM   ,M9  M YMb   M    MM   ,M9 
-  MMmmdM9   M  `MN. M    MMmmdM9  
-  MM        M   `MM.M    MM       
-  MM        M     YMM    MM       
-.JMML.    .JML.    YM  .JMML."")
-
+logo=(" 
+ooooooo__ooo____oo_ooooooo__
+oo____oo_oooo___oo_oo____oo_
+oo____oo_oo_oo__oo_oo____oo_
+oooooo___oo__oo_oo_oooooo___
+oo_______oo___oooo_oo_______
+oo_______oo____ooo_oo_______
+____________________________
+")
 def clear():
   os.system('clear')
 print(logo)
