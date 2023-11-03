@@ -25,6 +25,11 @@ def main():
     # Get the banner text from the "bs.txt" file.
     with open("bs.txt", "r") as banner_file:
         banner_text = banner_file.read()
+        banner_text = banner_text + """
+
+    Author: Rohit Abdullah
+    GitHub: https://github.com/rohitabdullah
+    """
 
     # Calculate the center of the terminal.
     terminal_width = shutil.get_terminal_size().columns
