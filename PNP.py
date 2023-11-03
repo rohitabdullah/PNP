@@ -5,9 +5,11 @@ import tqdm
 import os
 import shutil
 
-def is_public_uid(uid):
+def is_public_uid(uid, access_token):
     response = requests.get(
-        f"https://graph.facebook.com/v13.0/{uid}?fields=is_public")
+        f"https://graph.facebook.com/v13.0/{uid}?fields=is_public",
+        headers={"Authorization": f"Bearer {access_token}"},
+    )
     json_response = response.json()
     return json_response["is_public"] if "is_public" in json_response else False
 
@@ -15,9 +17,11 @@ def get_image_from_url(image_url):
     response = requests.get(image_url)
     return PIL.Image.open(response.content)
 
-# Display the banner image.
-banner_image = get_image_from_url("bs.png")
-banner_image.show()
+# Display the banner text file.
+banner_text_file = open("bs.txt", "r")
+banner_text = banner_text_file.read()
+print(banner_text)
+banner_text_file.close()
 
 # Prompt the user to enter their access token.
 access_token = input("Enter your Facebook access token: ")
